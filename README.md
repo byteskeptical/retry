@@ -1,6 +1,4 @@
-========
-retry
-========
+# retry
 
 .. image:: https://travis-ci.org/bornwitbugs/retry.png?branch=master
    :target: https://travis-ci.org/bornwitbugs/retry
