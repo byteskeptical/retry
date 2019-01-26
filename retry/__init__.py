@@ -36,7 +36,7 @@ def retry(exceptions, tries=4, delay=3, backoff=2, silent=False, logger=None):
                                 x.args == e.args)):
                         raise
                     msg = ('Retry ({0:d}/{1:d}):\n {2}\n Retrying in {3} '
-                           'second(s)...').format(tries, mtries, str(e)
+                           'second(s)...').format(mtries, tries, str(e)
                                                   if str(e) != ''
                                                   else repr(e), mdelay)
                     if not silent:

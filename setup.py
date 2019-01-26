@@ -2,16 +2,12 @@
 
 from setuptools import setup
 
-with open('README.rst') as h_rst:
-    LONG_DESCRIPTION = h_rst.read()
+with open('README.md') as h_md:
+    LONG_DESCRIPTION = h_md.read()
 
-with open('docs/changes.rst') as h_rst:
-    BUF = h_rst.read()
-    BUF = BUF.replace('``', '$')        # protect existing code markers
-    for xref in [':meth:', ':attr:', ':class:', ':func:']:
-        BUF = BUF.replace(xref, '')     # remove xrefs
-    BUF = BUF.replace('`', '``')        # replace refs with code markers
-    BUF = BUF.replace('$', '``')        # restore existing code markers
+with open('docs/changes.md') as h_md:
+    BUF = h_md.read()
+
 LONG_DESCRIPTION += BUF
 
 DESCRIPTION = "Function Retry Decorator"
@@ -31,7 +27,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     keywords='errors exceptions retry wrapper',
     platforms=['any'],
-    test_suite = 'tests.retry_tests.suite',
+    test_suite = 'tests.retry_tests',
     url='https://github.com/bornwitbugs/retry',
     classifiers=[
         'Development Status :: 4 - Beta',
