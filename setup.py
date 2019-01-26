@@ -31,6 +31,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     keywords='errors exceptions retry wrapper',
     platforms=['any'],
+    test_suite = 'tests.retry_tests.suite',
     url='https://github.com/bornwitbugs/retry',
     classifiers=[
         'Development Status :: 4 - Beta',
