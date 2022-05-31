@@ -1,6 +1,6 @@
 # retry
 
-[![Build Status](https://travis-ci.org/bornwitbugs/retry.svg?branch=master)](https://travis-ci.org/bornwitbugs/retry)
+[![Build Status](https://travis-ci.org/byteskeptical/retry.svg?branch=master)](https://travis-ci.org/byteskeptical/retry)
 
 Exception type based retry decorator for all your problematic functions.
 

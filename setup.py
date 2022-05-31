@@ -14,21 +14,21 @@ DESCRIPTION = "Function Retry Decorator"
 
 setup(
     name="retry",
-    version="0.0.2",
+    version="0.1.0",
 
     packages=['retry', ],
 
     # metadata for upload to PyPI
-    author='bornwitbugs',
-    author_email='40208858+bornwitbugs@users.noreply.github.com',
+    author='byteskeptical',
+    author_email='40208858+byteskeptical@users.noreply.github.com',
     description=DESCRIPTION,
-    download_url='https://pypi.python.org/pypi/retry',
+    download_url='https://pypi.org/project/retry',
     license='BSD',
     long_description=LONG_DESCRIPTION,
-    keywords='errors exceptions retry wrapper',
+    keywords='errors exceptions retry wrapper decorator',
     platforms=['any'],
     test_suite = 'tests.retry_tests',
-    url='https://github.com/bornwitbugs/retry',
+    url='https://github.com/byteskeptical/retry',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -39,7 +39,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Topic :: Utilities',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Topic :: Utilities'
     ],
-
 )
