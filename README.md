@@ -1,8 +1,6 @@
 # retry
+## Exception type based retry decorator for all your problematic functions.
 
-[![Build Status](https://travis-ci.org/byteskeptical/retry.svg?branch=master)](https://travis-ci.org/byteskeptical/retry)
-
-Exception type based retry decorator for all your problematic functions.
 
 Inspired by: https://wiki.python.org/moin/PythonDecoratorLibrary#Retry
 
