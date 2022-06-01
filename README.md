@@ -43,6 +43,7 @@ Inspired by: https://wiki.python.org/moin/PythonDecoratorLibrary#Retry
 ## Usage
 
 ```python
+from logging import basicConfig, getLogger, INFO
 from retry import retry
 
 basicConfig(level=INFO)
@@ -55,7 +56,7 @@ def yourfunction(self, example):
     except:
         raise TestError
     finally:
-        print('No Errors!')
+        log.INFO('No Errors!')
 ```
 
 

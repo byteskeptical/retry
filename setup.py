@@ -25,6 +25,7 @@ setup(
     download_url='https://pypi.org/project/retry',
     license='BSD',
     long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
     keywords='errors exceptions retry wrapper decorator',
     platforms=['any'],
     test_suite = 'tests.retry_tests',
