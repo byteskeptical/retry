@@ -1,18 +1,23 @@
+import pytest
+
 from logging import getLogger, StreamHandler
 from retry import retry
 from unittest import main, TestCase
 
+
 class RetryableError(Exception):
     pass
+
 
 class AnotherRetryableError(Exception):
     pass
 
+
 class UnexpectedError(Exception):
     pass
 
-class RetryTestCase(TestCase):
 
+class RetryTestCase(TestCase):
     def test_no_retry_required(self):
         self.counter = 0
 
@@ -95,6 +100,7 @@ class RetryTestCase(TestCase):
                 return 'success'
 
         fails_once()
+
 
 if __name__ == '__main__':
     main()
