@@ -87,9 +87,11 @@ class RetryTestCase(TestCase):
         with self.assertRaises(UnexpectedError):
             raise_unexpected_error()
 
-    def test_using_a_logger(self):
+    @pytest.fixture(autouse=True)
+    def test_using_a_logger(self, caplog):
         expected = {'DEBUG': 'success', 'ERROR': 'failed'}
         records = {}
+        self._caplog = caplog
         self.counter = 0
 
         sh = StreamHandler()
@@ -97,19 +99,20 @@ class RetryTestCase(TestCase):
         LOGGER.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=LOGGER)
-        def fails_once(caplog):
-            caplog.set_level(DEBUG, logger=LOGGER)
+        def fails_once():
+            self._caplog.set_level(DEBUG, logger=LOGGER)
             self.counter += 1
             if self.counter < 2:
                 LOGGER.ERROR('failed')
                 raise RetryableError('failed')
             else:
                 LOGGER.DEBUG('success')
-                for record in caplog.records:
-                    records[record.levelname] = record.message
                 return 'success'
 
         r = fails_once()
+
+        for record in self._caplog.records:
+            records[record.levelname] = record.message
 
         assert r == 'success'
         assert self.counter == 2
