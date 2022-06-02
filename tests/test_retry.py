@@ -95,12 +95,12 @@ class RetryTestCase(TestCase):
         self.counter = 0
 
         sh = StreamHandler()
-        log = getLogger('__main__.' + __name__)
+        log = getLogger( __name__)
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
         def fails_once():
-            self._caplog.set_level(DEBUG, logger=log)
+            self._caplog.set_level(DEBUG)
             self.counter += 1
             if self.counter < 2:
                 log.ERROR('failed')
