@@ -84,12 +84,15 @@ class RetryTestCase(TestCase):
         def raise_unexpected_error():
             raise UnexpectedError('unexpected error')
 
-        with self.assertRaises(UnexpectedError):
+        with pytest.raises(UnexpectedError, match='unexpected error'):
             raise_unexpected_error()
 
     @pytest.fixture(autouse=True)
     def test_using_a_logger(self, caplog):
-        expected = {'DEBUG': 'success', 'ERROR': 'failed'}
+        expected = {'DEBUG': 'success',
+                    'ERROR': 'failed',
+                    'WARNING': ('Retry (4/4):\nfailed\nRetrying in 0.1 '
+                                'second(s)...')}
         records = {}
         self._caplog = caplog
         self.counter = 0
