@@ -87,7 +87,7 @@ class RetryTestCase(TestCase):
         with self.assertRaises(UnexpectedError):
             raise_unexpected_error()
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture
     def test_using_a_logger(self):
         expected = {'DEBUG': 'success', 'ERROR': 'failed'}
         records = {}
@@ -108,7 +108,7 @@ class RetryTestCase(TestCase):
                 LOGGER.DEBUG('success')
                 return 'success'
 
-        fails_once()
+        r = fails_once()
 
         for record in caplog.records:
             records[record.levelname] = record.message
