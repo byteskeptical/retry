@@ -109,12 +109,11 @@ class RetryTestCase(TestCase):
                 raise RetryableError('failed')
             else:
                 log.debug('success')
+                for record in caplog.records:
+                    records[record.levelname] = record.message
                 return 'success'
 
         r = fails_once()
-
-        for record in caplog.records:
-            records[record.levelname] = record.message
 
         assert r == 'success'
         assert self.counter == 2
