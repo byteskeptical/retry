@@ -88,7 +88,7 @@ class RetryTestCase(TestCase):
             raise_unexpected_error()
 
     @pytest.fixture(autouse=True)
-    def test_using_a_logger(self):
+    def test_using_a_logger(self, caplog):
         expected = {'DEBUG': 'success',
                     'ERROR': 'failed',
                     'WARNING': ('Retry (4/4):\nfailed\nRetrying in 0.1 '
@@ -101,9 +101,8 @@ class RetryTestCase(TestCase):
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
-        def fails_once(caplog):
-            self._caplog = caplog
-            self._caplog.set_level(DEBUG)
+        def fails_once():
+            caplog.set_level(DEBUG)
             self.counter += 1
             if self.counter < 2:
                 log.error('failed')
@@ -112,9 +111,9 @@ class RetryTestCase(TestCase):
                 log.debug('success')
                 return 'success'
 
-        r = fails_once(caplog)
+        r = fails_once()
 
-        for record in self._caplog.records:
+        for record in caplog.records:
             records[record.levelname] = record.message
 
         assert r == 'success'
