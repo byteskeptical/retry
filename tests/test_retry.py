@@ -1,6 +1,6 @@
 import pytest
 
-from logging import DEBUG, ERROR, getLogger, StreamHandler
+from logging import DEBUG, getLogger, StreamHandler
 from retry import retry
 from unittest import main, TestCase
 
@@ -95,7 +95,7 @@ class RetryTestCase(TestCase):
         self.counter = 0
 
         sh = StreamHandler()
-        log = getLogger( __name__)
+        log = getLogger(__name__)
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
@@ -103,10 +103,10 @@ class RetryTestCase(TestCase):
             self._caplog.set_level(DEBUG)
             self.counter += 1
             if self.counter < 2:
-                log.ERROR('failed')
+                log.error('failed')
                 raise RetryableError('failed')
             else:
-                log.DEBUG('success')
+                log.debug('success')
                 return 'success'
 
         r = fails_once()
