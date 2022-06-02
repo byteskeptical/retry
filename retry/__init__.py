@@ -1,6 +1,7 @@
 from functools import wraps
 from time import sleep
 
+
 def retry(exceptions, tries=4, delay=3, backoff=2, silent=False, logger=None):
     try:
         len(exceptions)

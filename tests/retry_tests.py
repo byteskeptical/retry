@@ -1,6 +1,6 @@
 import pytest
 
-from logging import getLogger, StreamHandler
+from logging import DEBUG, ERROR, getLogger, StreamHandler
 from retry import retry
 from unittest import main, TestCase
 
@@ -28,8 +28,8 @@ class RetryTestCase(TestCase):
 
         r = succeeds()
 
-        self.assertEqual(r, 'success')
-        self.assertEqual(self.counter, 1)
+        assert r == 'success'
+        assert self.counter == 1
 
     def test_retries_once(self):
         self.counter = 0
@@ -43,8 +43,9 @@ class RetryTestCase(TestCase):
                 return 'success'
 
         r = fails_once()
-        self.assertEqual(r, 'success')
-        self.assertEqual(self.counter, 2)
+
+        assert r == 'success'
+        assert self.counter == 2
 
     def test_limit_is_reached(self):
         self.counter = 0
@@ -56,7 +57,8 @@ class RetryTestCase(TestCase):
 
         with self.assertRaises(RetryableError):
             always_fails()
-        self.assertEqual(self.counter, 4)
+
+        assert self.counter == 4
 
     def test_multiple_exception_types(self):
         self.counter = 0
@@ -72,8 +74,9 @@ class RetryTestCase(TestCase):
                 return 'success'
 
         r = raise_multiple_exceptions()
-        self.assertEqual(r, 'success')
-        self.assertEqual(self.counter, 3)
+
+        assert r == 'success'
+        assert self.counter == 3
 
     def test_unexpected_exception_does_not_retry(self):
 
@@ -85,21 +88,33 @@ class RetryTestCase(TestCase):
             raise_unexpected_error()
 
     def test_using_a_logger(self):
+        expected = {'DEBUG': 'success', 'ERROR': 'failed'}
+        records = {}
         self.counter = 0
 
         sh = StreamHandler()
-        logger = getLogger(__name__)
-        logger.addHandler(sh)
+        log = getLogger(__name__)
+        log.addHandler(sh)
 
-        @retry(RetryableError, tries=4, delay=0.1, logger=logger)
+        @retry(RetryableError, tries=4, delay=0.1, logger=log)
         def fails_once():
+            caplog.set_level(DEBUG, logger=logger)
             self.counter += 1
             if self.counter < 2:
+                logger.ERROR('failed')
                 raise RetryableError('failed')
             else:
+                logger.DEBUG('success')
                 return 'success'
 
         fails_once()
+
+        for record in caplog.records:
+            records[record.levelname] = record.message
+
+        assert r == 'success'
+        assert self.counter == 2
+        assert expected == records
 
 
 if __name__ == '__main__':

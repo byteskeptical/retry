@@ -28,7 +28,7 @@ setup(
     long_description_content_type='text/markdown',
     keywords='errors exceptions retry wrapper decorator',
     platforms=['any'],
-    test_suite = 'tests.retry_tests',
+    test_suite='tests.retry_tests',
     url='https://github.com/byteskeptical/retry',
     classifiers=[
         'Development Status :: 4 - Beta',
