@@ -87,7 +87,7 @@ class RetryTestCase(TestCase):
         with self.assertRaises(UnexpectedError):
             raise_unexpected_error()
 
-    def test_using_a_logger(self):
+    def test_using_a_logger(self, caplog):
         expected = {'DEBUG': 'success', 'ERROR': 'failed'}
         records = {}
         self.counter = 0
@@ -97,7 +97,7 @@ class RetryTestCase(TestCase):
         LOGGER.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=LOGGER)
-        def fails_once(caplog):
+        def fails_once():
             caplog.set_level(DEBUG, logger=LOGGER)
             self.counter += 1
             if self.counter < 2:
