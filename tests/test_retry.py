@@ -100,7 +100,7 @@ class RetryTestCase(TestCase):
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
-        def fails_once(caplog):
+        def fails_once():
             self._caplog = caplog
             self._caplog.set_level(DEBUG)
             self.counter += 1
