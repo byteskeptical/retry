@@ -93,7 +93,6 @@ class RetryTestCase(TestCase):
                     'WARNING': ('Retry (4/4):\nfailed\nRetrying in 0.1 '
                                 'second(s)...')}
         records = {}
-        self._caplog = caplog
         self.counter = 0
 
         sh = StreamHandler()
@@ -101,17 +100,20 @@ class RetryTestCase(TestCase):
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
-        def fails_once(capLog):
-            capLog.set_level(DEBUG)
+        def fails_once(caplog):
+            self._caplog = caplog
+            self._caplog.set_level(DEBUG)
             self.counter += 1
             if self.counter < 2:
                 log.error('failed')
                 raise RetryableError('failed')
             else:
                 log.debug('success')
+                for record in self._caplog.records:
+                    records[record.levelname] = record.message
                 return 'success'
 
-        r = fails_once(self._caplog)
+        r = fails_once()
         for record in self._caplog.records:
             records[record.levelname] = record.message
 
