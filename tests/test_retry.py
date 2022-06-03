@@ -87,7 +87,7 @@ class RetryTestCase(TestCase):
         with pytest.raises(UnexpectedError, match='unexpected error'):
             raise_unexpected_error()
 
-    def test_using_a_logger(self, caplog):
+    def test_using_a_logger(self):
         expected = {'DEBUG': 'success',
                     'ERROR': 'failed',
                     'WARNING': ('Retry (4/4):\nfailed\nRetrying in 0.1 '
@@ -114,8 +114,6 @@ class RetryTestCase(TestCase):
                 return 'success'
 
         r = fails_once()
-        for record in self._caplog.records:
-            records[record.levelname] = record.message
 
         assert r == 'success'
         assert self.counter == 2
