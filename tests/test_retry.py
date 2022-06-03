@@ -100,7 +100,6 @@ class RetryTestCase(TestCase):
         log = getLogger(__name__)
         log.addHandler(sh)
 
-        @pytest.fixture(autouse=True)
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
         def fails_once(capLog):
             capLog.set_level(DEBUG)
