@@ -87,7 +87,6 @@ class RetryTestCase(TestCase):
         with pytest.raises(UnexpectedError, match='unexpected error'):
             raise_unexpected_error()
 
-    @pytest.fixture(autouse=True)
     def test_using_a_logger(self):
         expected = {'DEBUG': 'success',
                     'ERROR': 'failed',
@@ -101,6 +100,7 @@ class RetryTestCase(TestCase):
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
+        @pytest.fixture(autouse=True)
         def fails_once():
             caplog.set_level(DEBUG)
             self.counter += 1
