@@ -18,6 +18,10 @@ class UnexpectedError(Exception):
 
 
 class RetryTestCase(TestCase):
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
     def test_no_retry_required(self):
         self.counter = 0
 
@@ -100,9 +104,7 @@ class RetryTestCase(TestCase):
         log.addHandler(sh)
 
         @retry(RetryableError, tries=4, delay=0.1, logger=log)
-        @pytest.fixture(autouse=True)
         def fails_once():
-            caplog.set_level(DEBUG)
             self.counter += 1
             if self.counter < 2:
                 log.error('failed')
@@ -113,7 +115,8 @@ class RetryTestCase(TestCase):
                     records[record.levelname] = record.message
                 return 'success'
 
-        r = fails_once()
+        with self._caplog.at_level(DEBUG):
+            r = fails_once()
 
         assert r == 'success'
         assert self.counter == 2
