@@ -1,4 +1,4 @@
-name: Retry
+name: Test
 
 on:
   push:

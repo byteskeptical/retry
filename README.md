@@ -1,4 +1,4 @@
-# retry
+# Retry
 ## Exception type based retry decorator for all your problematic functions.
 
 
