@@ -1,8 +1,6 @@
-# retry
+# Retry
+## Exception type based retry decorator for all your problematic functions.
 
-[![Build Status](https://travis-ci.org/bornwitbugs/retry.svg?branch=master)](https://travis-ci.org/bornwitbugs/retry)
-
-Exception type based retry decorator for all your problematic functions.
 
 Inspired by: https://wiki.python.org/moin/PythonDecoratorLibrary#Retry
 
@@ -43,6 +41,7 @@ Inspired by: https://wiki.python.org/moin/PythonDecoratorLibrary#Retry
 ## Usage
 
 ```python
+from logging import basicConfig, getLogger, INFO
 from retry import retry
 
 basicConfig(level=INFO)
@@ -55,7 +54,7 @@ def yourfunction(self, example):
     except:
         raise TestError
     finally:
-        print('No Errors!')
+        log.INFO('No Errors!')
 ```
 
 

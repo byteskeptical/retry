@@ -1,6 +1,7 @@
 from functools import wraps
 from time import sleep
 
+
 def retry(exceptions, tries=4, delay=3, backoff=2, silent=False, logger=None):
     try:
         len(exceptions)
@@ -35,10 +36,9 @@ def retry(exceptions, tries=4, delay=3, backoff=2, silent=False, logger=None):
                                 if type(x) == type(e) and
                                 x.args == e.args)):
                         raise
-                    msg = ('Retry ({0:d}/{1:d}):\n {2}\n Retrying in {3} '
-                           'second(s)...').format(mtries, tries, str(e)
-                                                  if str(e) != ''
-                                                  else repr(e), mdelay)
+                    msg = (f'Retry ({mtries:d}/{tries:d}):\n'
+                           f'{str(e) if str(e) != "" else repr(e)}\n'
+                           f'Retrying in {mdelay} second(s)...')
                     if not silent:
                         if logger:
                             logger.warning(msg)
