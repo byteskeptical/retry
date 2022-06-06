@@ -59,7 +59,7 @@ class RetryTestCase(TestCase):
             self.counter += 1
             raise RetryableError('failed')
 
-        with self.assertRaises(RetryableError):
+        with pytest.raises(RetryableError, match='failed'):
             always_fails()
 
         assert self.counter == 4
